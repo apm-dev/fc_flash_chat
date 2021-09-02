@@ -1,4 +1,5 @@
 import 'package:fc_flash_chat/constants.dart';
+import 'package:fc_flash_chat/services/authing.dart';
 import 'package:fc_flash_chat/widgets/password_input_field.dart';
 import 'package:fc_flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,17 @@ import 'package:flutter/material.dart';
 class RegistrationScreen extends StatefulWidget {
   static String id = "registration_screen";
 
+  final String host;
+  RegistrationScreen({@required this.host});
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen>
     with SingleTickerProviderStateMixin {
+  String name, uname, passwd;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +42,7 @@ class _RegistrationScreenState extends State<RegistrationScreen>
               textAlign: TextAlign.center,
               keyboardType: TextInputType.name,
               onChanged: (value) {
-                //Do something with the user input.
+                name = value;
               },
               decoration: kTextFieldInputDecoration.copyWith(
                 hintText: "Enter name",
@@ -48,7 +54,9 @@ class _RegistrationScreenState extends State<RegistrationScreen>
             TextField(
               textAlign: TextAlign.center,
               keyboardType: TextInputType.name,
-              onChanged: (value) {},
+              onChanged: (value) {
+                uname = value;
+              },
               decoration: kTextFieldInputDecoration.copyWith(
                 hintText: "Enter username",
               ),
@@ -57,13 +65,24 @@ class _RegistrationScreenState extends State<RegistrationScreen>
               height: 8.0,
             ),
             PasswordInputField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                passwd = value;
+              },
             ),
             SizedBox(
               height: 24.0,
             ),
             RoundedButton(
-              onPressed: () {},
+              onPressed: () async {
+                bool isRegistered = await Authing(baseUrl: widget.host)
+                    .register(name, uname, passwd);
+
+                if (isRegistered) {
+                  print("welcome to our app");
+                } else {
+                  print("failed");
+                }
+              },
               title: "Register",
               color: Colors.blueAccent,
             ),

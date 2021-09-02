@@ -4,6 +4,7 @@ import 'package:fc_flash_chat/screens/login_screen.dart';
 import 'package:fc_flash_chat/screens/registration_screen.dart';
 import 'package:fc_flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = "welcome_screen";
@@ -16,6 +17,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
+
+  String host;
 
   @override
   void initState() {
@@ -94,7 +97,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 hintText: "Enter host address",
               ),
               onChanged: (value) {
-                //Do something with the user input.
+                host = value;
               },
             ),
             SizedBox(
@@ -103,15 +106,23 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             RoundedButton(
               title: "Login",
               color: Colors.lightBlueAccent,
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pushNamed(context, LoginScreen.id);
+                // var sp = await SharedPreferences.getInstance();
+                // print(sp.getString("USERNAME"));
+                // print(sp.getString("PASSWORD"));
+                // print(sp.getString("TOKEN"));
               },
             ),
             RoundedButton(
               title: "Register",
               color: Colors.blueAccent,
               onPressed: () {
-                Navigator.pushNamed(context, RegistrationScreen.id);
+                Navigator.pushNamed(
+                  context,
+                  RegistrationScreen.id,
+                  arguments: host,
+                );
               },
             ),
           ],

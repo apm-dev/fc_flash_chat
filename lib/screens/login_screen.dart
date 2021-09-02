@@ -1,4 +1,5 @@
 import 'package:fc_flash_chat/constants.dart';
+import 'package:fc_flash_chat/widgets/password_input_field.dart';
 import 'package:fc_flash_chat/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 
@@ -42,16 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 8.0,
             ),
-            TextField(
-              textAlign: TextAlign.center,
-              obscureText: true,
-              keyboardType: TextInputType.number,
-              decoration: kTextFieldInputDecoration.copyWith(
-                hintText: 'Enter your password',
-              ),
-              onChanged: (value) {
-                //Do something with the user input.
-              },
+            PasswordInputField(
+              onChanged: (value) {},
             ),
             SizedBox(
               height: 24.0,
